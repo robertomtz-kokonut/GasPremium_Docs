@@ -257,6 +257,26 @@
                   <li>
                     <a href="#obtener-los-metodos-de-pago-de-un-usuario" class="toc-h2 toc-link" data-title="Obtener los métodos de pago de un usuario">Obtener los métodos de pago de un usuario</a>
                   </li>
+                  <li>
+                    <a href="#eliminar-metodo-de-pago-asociado-a-un-usuario" class="toc-h2 toc-link" data-title="Eliminar método de pago asociado a un usuario">Eliminar método de pago asociado a un usuario</a>
+                  </li>
+                  <li>
+                    <a href="#obtener-el-historial-de-pagos" class="toc-h2 toc-link" data-title="Obtener el historial de pagos">Obtener el historial de pagos</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
+            <a href="#visita" class="toc-h1 toc-link" data-title="Visita">Visita</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#obtener-fechas-disponibles" class="toc-h2 toc-link" data-title="Obtener fechas disponibles">Obtener fechas disponibles</a>
+                  </li>
+                  <li>
+                    <a href="#obtener-precio-por-litro" class="toc-h2 toc-link" data-title="Obtener precio por litro">Obtener precio por litro</a>
+                  </li>
+                  <li>
+                    <a href="#solicitar-visita" class="toc-h2 toc-link" data-title="Solicitar visita">Solicitar visita</a>
+                  </li>
               </ul>
           </li>
       </ul>
@@ -755,6 +775,385 @@ Si la respuesta de los servicios son llevadas a cabo satisfactoriamente se devue
 <td>AccessToken obtenido al iniciar sesión</td>
 <td>Bearer</td>
 <td>Siempre</td>
+</tr>
+</tbody></table>
+<h2 id='eliminar-metodo-de-pago-asociado-a-un-usuario'>Eliminar método de pago asociado a un usuario</h2>
+<blockquote>
+<p>Ejemplo:</p>
+</blockquote>
+<pre class="highlight javascript tab-javascript"><code><span class="p">{</span>
+  <span class="s2">"method_id"</span><span class="p">:</span> <span class="s2">"src_2kahPKe67FNYTLwWx"</span>
+<span class="p">}</span>
+</code></pre><pre class="highlight csharp tab-csharp"><code><span class="p">{</span>
+  <span class="s">"success"</span><span class="p">:</span> <span class="m">1</span><span class="p">,</span>
+  <span class="s">"message"</span><span class="p">:</span> <span class="s">"Método de pago eliminado correctamente."</span><span class="p">,</span>
+  <span class="s">"data"</span><span class="p">:</span> <span class="k">null</span>
+<span class="p">}</span>
+</code></pre><pre class="highlight java tab-java"><code><span class="c1">// Source id incorrecto</span>
+<span class="o">{</span>
+  <span class="s">"success"</span><span class="o">:</span> <span class="mi">0</span><span class="o">,</span>
+  <span class="s">"message"</span><span class="o">:</span> <span class="s">"El método de pago no existe."</span><span class="o">,</span>
+  <span class="s">"data"</span><span class="o">:</span> <span class="kc">null</span>
+<span class="o">}</span>
+</code></pre>
+<p>Elimina un método de pago asociado al usuario. </p>
+
+<table><thead>
+<tr>
+<th>HTTP Request</th>
+<th>Name Endpoint</th>
+<th>Endpoint</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>POST</td>
+<td>REMOVE_PAYMENT_METHOD</td>
+<td>{{url}}/delete-method-payment</td>
+</tr>
+</tbody></table>
+<h3 id='header-5'>Header</h3>
+<table><thead>
+<tr>
+<th>Key</th>
+<th>Descripción</th>
+<th>Type</th>
+<th>Obligación de envío</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>Autorization</td>
+<td>AccessToken obtenido al iniciar sesión</td>
+<td>Bearer</td>
+<td>Siempre</td>
+</tr>
+</tbody></table>
+<h3 id='parametros-5'>Parámetros</h3>
+<table><thead>
+<tr>
+<th>Key</th>
+<th>Descripción</th>
+<th>Type</th>
+<th>Obligación de envío</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>method_id</td>
+<td>Source id asociado a la tarjeta previamente registrada</td>
+<td>String</td>
+<td>Siempre</td>
+</tr>
+</tbody></table>
+<h2 id='obtener-el-historial-de-pagos'>Obtener el historial de pagos</h2>
+<blockquote>
+<p>Ejemplo:</p>
+</blockquote>
+<pre class="highlight javascript tab-javascript"><code><span class="cm">/* NO BODY */</span>
+</code></pre><pre class="highlight csharp tab-csharp"><code><span class="p">{</span>
+    <span class="s">"success"</span><span class="p">:</span> <span class="m">1</span><span class="p">,</span>
+    <span class="s">"message"</span><span class="p">:</span> <span class="k">null</span><span class="p">,</span>
+    <span class="s">"data"</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+            <span class="s">"id"</span><span class="p">:</span> <span class="m">1</span><span class="p">,</span>
+            <span class="s">"amount"</span><span class="p">:</span> <span class="s">"840"</span><span class="p">,</span>
+            <span class="s">"conekta_order_id"</span><span class="p">:</span> <span class="s">"ord_2kh9m1BbinczL9YXj"</span><span class="p">,</span>
+            <span class="s">"payment_method"</span><span class="p">:</span> <span class="s">"saved"</span><span class="p">,</span>
+            <span class="s">"payed"</span><span class="p">:</span> <span class="m">0</span><span class="p">,</span>
+            <span class="s">"payment_reference"</span><span class="p">:</span> <span class="k">null</span><span class="p">,</span>
+            <span class="s">"last_digits"</span><span class="p">:</span> <span class="k">null</span><span class="p">,</span>
+            <span class="s">"folio"</span><span class="p">:</span> <span class="s">"bvtyidXu7v3fjMesDbVUVPzdddcXlgBcT9D"</span><span class="p">,</span>
+            <span class="s">"payment_source"</span><span class="p">:</span> <span class="s">"src_2kh9kcBGP1anrNrYi"</span><span class="p">,</span>
+            <span class="s">"payment_status_id"</span><span class="p">:</span> <span class="m">1</span><span class="p">,</span>
+            <span class="s">"created_at"</span><span class="p">:</span> <span class="s">"2019-05-25 08:41:06"</span><span class="p">,</span>
+            <span class="s">"updated_at"</span><span class="p">:</span> <span class="s">"2019-05-25 08:41:06"</span><span class="p">,</span>
+            <span class="s">"description"</span><span class="p">:</span> <span class="s">"paid"</span>
+        <span class="p">}</span>
+    <span class="p">]</span>
+<span class="p">}</span>
+</code></pre><pre class="highlight java tab-java"><code><span class="o">{</span>
+    <span class="s">"success"</span><span class="o">:</span> <span class="mi">0</span><span class="o">,</span>
+    <span class="s">"message"</span><span class="o">:</span> <span class="s">"Unauthenticated"</span><span class="o">,</span>
+    <span class="s">"data"</span><span class="o">:</span> <span class="o">[]</span>
+<span class="o">}</span>
+</code></pre>
+<p>Obtiene el historial de transacciones realizadas por el usuario</p>
+
+<table><thead>
+<tr>
+<th>HTTP Request</th>
+<th>Name Endpoint</th>
+<th>Endpoint</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>GET</td>
+<td>GET_PAYMENT_HISTORY</td>
+<td>{{url}}/get-payments</td>
+</tr>
+</tbody></table>
+<h3 id='header-6'>Header</h3>
+<table><thead>
+<tr>
+<th>Key</th>
+<th>Descripción</th>
+<th>Type</th>
+<th>Obligación de envío</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>Autorization</td>
+<td>AccessToken obtenido al iniciar sesión</td>
+<td>Bearer</td>
+<td>Siempre</td>
+</tr>
+</tbody></table>
+
+<aside class="warning">
+<code>ISSUE</code> Por el momento obtiene todos los pagos realizados aunque no sean del propio usuario. 
+</aside>
+<h1 id='visita'>Visita</h1><h2 id='obtener-fechas-disponibles'>Obtener fechas disponibles</h2>
+<blockquote>
+<p>Ejemplo:</p>
+</blockquote>
+<pre class="highlight javascript tab-javascript"><code><span class="cm">/* NO BODY */</span>
+</code></pre><pre class="highlight csharp tab-csharp"><code><span class="p">{</span>
+    <span class="s">"success"</span><span class="p">:</span> <span class="m">1</span><span class="p">,</span>
+    <span class="s">"message"</span><span class="p">:</span> <span class="k">null</span><span class="p">,</span>
+    <span class="s">"data"</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+            <span class="s">"date"</span><span class="p">:</span> <span class="s">"2019-05-30"</span><span class="p">,</span>
+            <span class="s">"hours"</span><span class="p">:</span> <span class="p">[</span>
+                <span class="s">"7:30:00"</span><span class="p">,</span>
+                <span class="s">"8:30:00"</span><span class="p">,</span>
+                <span class="s">"9:30:00"</span><span class="p">,</span>
+                <span class="s">"10:30:00"</span><span class="p">,</span>
+                <span class="s">"11:30:00"</span><span class="p">,</span>
+                <span class="s">"12:30:00"</span><span class="p">,</span>
+                <span class="s">"13:30:00"</span><span class="p">,</span>
+                <span class="s">"14:30:00"</span><span class="p">,</span>
+                <span class="s">"15:30:00"</span><span class="p">,</span>
+                <span class="s">"16:30:00"</span>
+            <span class="p">]</span>
+        <span class="p">},</span>
+        <span class="p">...</span>
+        <span class="p">{</span>
+            <span class="s">"date"</span><span class="p">:</span> <span class="s">"2019-06-05"</span><span class="p">,</span>
+            <span class="s">"hours"</span><span class="p">:</span> <span class="p">[</span>
+                <span class="s">"7:30:00"</span><span class="p">,</span>
+                <span class="s">"8:30:00"</span><span class="p">,</span>
+                <span class="s">"9:30:00"</span><span class="p">,</span>
+                <span class="s">"10:30:00"</span><span class="p">,</span>
+                <span class="s">"11:30:00"</span><span class="p">,</span>
+                <span class="s">"12:30:00"</span><span class="p">,</span>
+                <span class="s">"13:30:00"</span><span class="p">,</span>
+                <span class="s">"14:30:00"</span><span class="p">,</span>
+                <span class="s">"15:30:00"</span><span class="p">,</span>
+                <span class="s">"16:30:00"</span>
+            <span class="p">]</span>
+        <span class="p">}</span>
+    <span class="p">]</span>
+<span class="p">}</span>
+</code></pre><pre class="highlight java tab-java"><code><span class="cm">/* NO EXAMPLE */</span>
+</code></pre>
+<p>Obtiene las fechas y horarios disponibles para realizar una solicitud de visita.</p>
+
+<table><thead>
+<tr>
+<th>HTTP Request</th>
+<th>Name Endpoint</th>
+<th>Endpoint</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>GET</td>
+<td>GET_AVAILABLE_DATES</td>
+<td>{{url}}/get-dates</td>
+</tr>
+</tbody></table>
+<h2 id='obtener-precio-por-litro'>Obtener precio por litro</h2>
+<blockquote>
+<p>Ejemplo:</p>
+</blockquote>
+<pre class="highlight javascript tab-javascript"><code><span class="cm">/* NO BODY */</span>
+</code></pre><pre class="highlight csharp tab-csharp"><code><span class="p">{</span>
+    <span class="s">"success"</span><span class="p">:</span> <span class="m">1</span><span class="p">,</span>
+    <span class="s">"message"</span><span class="p">:</span> <span class="k">null</span><span class="p">,</span>
+    <span class="s">"data"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s">"price"</span><span class="p">:</span> <span class="m">21</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre><pre class="highlight java tab-java"><code><span class="cm">/* NO EXAMPLE */</span>
+</code></pre>
+<p>Obtiene el precio actual del litro de gas.</p>
+
+<table><thead>
+<tr>
+<th>HTTP Request</th>
+<th>Name Endpoint</th>
+<th>Endpoint</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>GET</td>
+<td>GET_LITER_PRICE</td>
+<td>{{url}}/get-price</td>
+</tr>
+</tbody></table>
+<h2 id='solicitar-visita'>Solicitar visita</h2>
+<blockquote>
+<p>Ejemplo:</p>
+</blockquote>
+<pre class="highlight javascript tab-javascript"><code><span class="c1">// Pago en efectivo</span>
+<span class="p">{</span>
+  <span class="s2">"liters"</span><span class="p">:</span> <span class="mi">30</span><span class="p">,</span>
+  <span class="s2">"date"</span><span class="p">:</span> <span class="s2">"2019-05-13 9:30:00"</span><span class="p">,</span>
+  <span class="s2">"address"</span><span class="p">:</span> <span class="s2">"Vito Alessio Robles 186"</span><span class="p">,</span>
+  <span class="s2">"address_detail"</span><span class="p">:</span> <span class="s2">"Planta baja"</span><span class="p">,</span>
+  <span class="s2">"latitude"</span><span class="p">:</span> <span class="mf">19.283280</span><span class="p">,</span>
+  <span class="s2">"longitude"</span><span class="p">:</span> <span class="o">-</span><span class="mf">99.199140</span><span class="p">,</span>
+  <span class="s2">"payment_method"</span><span class="p">:</span> <span class="s2">"cash"</span><span class="p">,</span>
+  <span class="s2">"cash_amount"</span><span class="p">:</span> <span class="mi">500</span>
+<span class="p">}</span>
+<span class="c1">// Pago con tarjeta a contra-entrega</span>
+<span class="p">{</span>
+  <span class="s2">"liters"</span><span class="p">:</span> <span class="mi">30</span><span class="p">,</span>
+  <span class="s2">"date"</span><span class="p">:</span> <span class="s2">"2019-05-13 9:30:00"</span><span class="p">,</span>
+  <span class="s2">"address"</span><span class="p">:</span> <span class="s2">"Vito Alessio Robles 186"</span><span class="p">,</span>
+  <span class="s2">"address_detail"</span><span class="p">:</span> <span class="s2">"Planta baja"</span><span class="p">,</span>
+  <span class="s2">"latitude"</span><span class="p">:</span> <span class="mf">19.283280</span><span class="p">,</span>
+  <span class="s2">"longitude"</span><span class="p">:</span> <span class="o">-</span><span class="mf">99.199140</span><span class="p">,</span>
+  <span class="s2">"payment_method"</span><span class="p">:</span> <span class="s2">"delivery"</span>
+<span class="p">}</span>
+<span class="c1">// Pago con tarjeta al momento</span>
+<span class="p">{</span>
+  <span class="s2">"liters"</span><span class="p">:</span> <span class="mi">30</span><span class="p">,</span>
+  <span class="s2">"date"</span><span class="p">:</span> <span class="s2">"2019-05-13 9:30:00"</span><span class="p">,</span>
+  <span class="s2">"address"</span><span class="p">:</span> <span class="s2">"Vito Alessio Robles 186"</span><span class="p">,</span>
+  <span class="s2">"address_detail"</span><span class="p">:</span> <span class="s2">"Planta baja"</span><span class="p">,</span>
+  <span class="s2">"latitude"</span><span class="p">:</span> <span class="mf">19.283280</span><span class="p">,</span>
+  <span class="s2">"longitude"</span><span class="p">:</span> <span class="o">-</span><span class="mf">99.199140</span><span class="p">,</span>
+  <span class="s2">"payment_method"</span><span class="p">:</span> <span class="s2">"saved"</span><span class="p">,</span>
+  <span class="s2">"payment_source_id"</span><span class="p">:</span> <span class="s2">"src_2kfibRXbFf6wcvt4X"</span>
+<span class="p">}</span>
+</code></pre><pre class="highlight csharp tab-csharp"><code><span class="c1">// Visita programada correctamente</span>
+<span class="p">{</span>
+    <span class="s">"success"</span><span class="p">:</span> <span class="m">1</span><span class="p">,</span>
+    <span class="s">"message"</span><span class="p">:</span> <span class="k">null</span><span class="p">,</span>
+    <span class="s">"data"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s">"folio"</span><span class="p">:</span> <span class="s">"ua1Ckipg1Y1MclCTf8MSrGopX8Gy7uTCUrP"</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+<span class="c1">// Visita programada y pagada correctamente</span>
+<span class="p">{</span>
+    <span class="s">"success"</span><span class="p">:</span> <span class="m">1</span><span class="p">,</span>
+    <span class="s">"message"</span><span class="p">:</span> <span class="k">null</span><span class="p">,</span>
+    <span class="s">"data"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s">"status"</span><span class="p">:</span> <span class="s">"Pagado"</span><span class="p">,</span>
+        <span class="s">"auth_code"</span><span class="p">:</span> <span class="s">"744857"</span><span class="p">,</span>
+        <span class="s">"conekta_order_id"</span><span class="p">:</span> <span class="s">"ord_2kinDfzeU98LHE52s"</span><span class="p">,</span>
+        <span class="s">"payment_reference"</span><span class="p">:</span> <span class="k">null</span><span class="p">,</span>
+        <span class="s">"folio"</span><span class="p">:</span> <span class="s">"USyE28hdOKfI4YmaZGuciTEEwJwOj8dgdKV"</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre><pre class="highlight java tab-java"><code><span class="c1">// Source id incorrecto</span>
+<span class="o">{</span>
+  <span class="s">"success"</span><span class="o">:</span> <span class="mi">0</span><span class="o">,</span>
+  <span class="s">"message"</span><span class="o">:</span> <span class="s">"La tarjeta no esta asociada al cliente."</span><span class="o">,</span>
+  <span class="s">"data"</span><span class="o">:</span> <span class="kc">null</span>
+<span class="o">}</span>
+</code></pre>
+<p>Genera una visita y es asociada al cliente.</p>
+
+<table><thead>
+<tr>
+<th>HTTP Request</th>
+<th>Name Endpoint</th>
+<th>Endpoint</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>POST</td>
+<td>REQUEST_VISIT</td>
+<td>{{url}}/request-gasoline</td>
+</tr>
+</tbody></table>
+<h3 id='header-7'>Header</h3>
+<table><thead>
+<tr>
+<th>Key</th>
+<th>Descripción</th>
+<th>Type</th>
+<th>Obligación de envío</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>Autorization</td>
+<td>AccessToken obtenido al iniciar sesión</td>
+<td>Bearer</td>
+<td>Siempre</td>
+</tr>
+</tbody></table>
+<h3 id='parametros-6'>Parámetros</h3>
+<table><thead>
+<tr>
+<th>Key</th>
+<th>Descripción</th>
+<th>Type</th>
+<th>Obligación de envío</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>liters</td>
+<td>Cantidad de litros solicitados por el cliente</td>
+<td>Double</td>
+<td>Siempre</td>
+</tr>
+<tr>
+<td>date</td>
+<td>Fecha en la que se solicita la visita con el siguiente formato: &quot;YYYY-MM-DD h:mm:ss&quot;</td>
+<td>String</td>
+<td>Siempre</td>
+</tr>
+<tr>
+<td>address</td>
+<td>Dirección para realizar la visita</td>
+<td>String</td>
+<td>Siempre</td>
+</tr>
+<tr>
+<td>address_detail</td>
+<td>Descripción extra para la dirección</td>
+<td>String</td>
+<td>Opcional</td>
+</tr>
+<tr>
+<td>latitude</td>
+<td>Latitud en la que se encuentra ubicada la dirección del usuario</td>
+<td>Long</td>
+<td>Siempre</td>
+</tr>
+<tr>
+<td>longitude</td>
+<td>Longitud en la que se encuentra ubicada la dirección del usuario</td>
+<td>Long</td>
+<td>Siempre</td>
+</tr>
+<tr>
+<td>payment_method</td>
+<td>Valor que indica con qué tipo de método de pago será realizada la petición</td>
+<td>oxxo_cash - saved - cash - delivery</td>
+<td>Siempre</td>
+</tr>
+<tr>
+<td>cash_amount</td>
+<td>Cantidad con la que el usuario pagará en efectivo</td>
+<td>Double</td>
+<td>Solo si payment_method es &quot;cash&quot;</td>
+</tr>
+<tr>
+<td>payment_source_id</td>
+<td>Source id asociado a la tarjeta previamente registrada</td>
+<td>String</td>
+<td>Solo si payment_method es &quot;saved&quot;</td>
 </tr>
 </tbody></table>
 
