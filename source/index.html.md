@@ -370,3 +370,291 @@ GET           | GET_PAYMENT_METHODS  | {{url}}/method-payment
 Key          | Descripción                              | Type    | Obligación de envío
 -------------|------------------------------------------|---------|----------------------
 Autorization | AccessToken obtenido al iniciar sesión   | Bearer  | Siempre
+
+
+
+## Eliminar método de pago asociado a un usuario
+> Ejemplo:
+
+```javascript
+{
+  "method_id": "src_2kahPKe67FNYTLwWx"
+}
+```
+
+```csharp
+{
+  "success": 1,
+  "message": "Método de pago eliminado correctamente.",
+  "data": null
+}
+```
+
+```java
+// Source id incorrecto
+{
+  "success": 0,
+  "message": "El método de pago no existe.",
+  "data": null
+}
+```
+
+Elimina un método de pago asociado al usuario. 
+
+HTTP Request  | Name Endpoint          | Endpoint
+--------------|------------------------|---------------
+POST          | REMOVE_PAYMENT_METHOD  | {{url}}/delete-method-payment
+
+### Header
+Key          | Descripción                              | Type    | Obligación de envío
+-------------|------------------------------------------|---------|----------------------
+Autorization | AccessToken obtenido al iniciar sesión   | Bearer  | Siempre
+
+### Parámetros
+Key         | Descripción                                            | Type    | Obligación de envío
+------------|--------------------------------------------------------|---------|---------------------
+method_id   | Source id asociado a la tarjeta previamente registrada | String  | Siempre
+
+
+
+## Obtener el historial de pagos
+> Ejemplo:
+
+```javascript
+/* NO BODY */
+```
+
+```csharp
+{
+    "success": 1,
+    "message": null,
+    "data": [
+        {
+            "id": 1,
+            "amount": "840",
+            "conekta_order_id": "ord_2kh9m1BbinczL9YXj",
+            "payment_method": "saved",
+            "payed": 0,
+            "payment_reference": null,
+            "last_digits": null,
+            "folio": "bvtyidXu7v3fjMesDbVUVPzdddcXlgBcT9D",
+            "payment_source": "src_2kh9kcBGP1anrNrYi",
+            "payment_status_id": 1,
+            "created_at": "2019-05-25 08:41:06",
+            "updated_at": "2019-05-25 08:41:06",
+            "description": "paid"
+        }
+    ]
+}
+```
+
+```java
+{
+    "success": 0,
+    "message": "Unauthenticated",
+    "data": []
+}
+```
+
+Obtiene el historial de transacciones realizadas por el usuario
+
+HTTP Request  | Name Endpoint       | Endpoint
+--------------|---------------------|---------------
+GET           | GET_PAYMENT_HISTORY | {{url}}/get-payments
+
+### Header
+Key          | Descripción                              | Type    | Obligación de envío
+-------------|------------------------------------------|---------|----------------------
+Autorization | AccessToken obtenido al iniciar sesión   | Bearer  | Siempre
+
+
+<aside class="warning">
+<code>ISSUE</code> Por el momento obtiene todos los pagos realizados aunque no sean del propio usuario. 
+</aside>
+
+
+
+
+
+# Visita
+## Obtener fechas disponibles
+> Ejemplo:
+
+```javascript
+/* NO BODY */
+```
+
+```csharp
+{
+    "success": 1,
+    "message": null,
+    "data": [
+        {
+            "date": "2019-05-30",
+            "hours": [
+                "7:30:00",
+                "8:30:00",
+                "9:30:00",
+                "10:30:00",
+                "11:30:00",
+                "12:30:00",
+                "13:30:00",
+                "14:30:00",
+                "15:30:00",
+                "16:30:00"
+            ]
+        },
+        ...
+        {
+            "date": "2019-06-05",
+            "hours": [
+                "7:30:00",
+                "8:30:00",
+                "9:30:00",
+                "10:30:00",
+                "11:30:00",
+                "12:30:00",
+                "13:30:00",
+                "14:30:00",
+                "15:30:00",
+                "16:30:00"
+            ]
+        }
+    ]
+}
+```
+
+```java
+/* NO EXAMPLE */
+```
+
+Obtiene las fechas y horarios disponibles para realizar una solicitud de visita.
+
+HTTP Request  | Name Endpoint        | Endpoint
+--------------|----------------------|---------------
+GET           | GET_AVAILABLE_DATES  | {{url}}/get-dates
+
+
+
+## Obtener precio por litro
+> Ejemplo:
+
+```javascript
+/* NO BODY */
+```
+
+```csharp
+{
+    "success": 1,
+    "message": null,
+    "data": {
+        "price": 21
+    }
+}
+```
+
+```java
+/* NO EXAMPLE */
+```
+
+Obtiene el precio actual del litro de gas.
+
+HTTP Request  | Name Endpoint   | Endpoint
+--------------|-----------------|-------------------
+GET           | GET_LITER_PRICE | {{url}}/get-price
+
+
+
+## Solicitar visita
+> Ejemplo:
+
+```javascript
+// Pago en efectivo
+{
+  "liters": 30,
+  "date": "2019-05-13 9:30:00",
+  "address": "Vito Alessio Robles 186",
+  "address_detail": "Planta baja",
+  "latitude": 19.283280,
+  "longitude": -99.199140,
+  "payment_method": "cash",
+  "cash_amount": 500
+}
+// Pago con tarjeta a contra-entrega
+{
+  "liters": 30,
+  "date": "2019-05-13 9:30:00",
+  "address": "Vito Alessio Robles 186",
+  "address_detail": "Planta baja",
+  "latitude": 19.283280,
+  "longitude": -99.199140,
+  "payment_method": "delivery"
+}
+// Pago con tarjeta al momento
+{
+  "liters": 30,
+  "date": "2019-05-13 9:30:00",
+  "address": "Vito Alessio Robles 186",
+  "address_detail": "Planta baja",
+  "latitude": 19.283280,
+  "longitude": -99.199140,
+  "payment_method": "saved",
+  "payment_source_id": "src_2kfibRXbFf6wcvt4X"
+}
+```
+
+```csharp
+// Visita programada correctamente
+{
+    "success": 1,
+    "message": null,
+    "data": {
+        "folio": "ua1Ckipg1Y1MclCTf8MSrGopX8Gy7uTCUrP"
+    }
+}
+// Visita programada y pagada correctamente
+{
+    "success": 1,
+    "message": null,
+    "data": {
+        "status": "Pagado",
+        "auth_code": "744857",
+        "conekta_order_id": "ord_2kinDfzeU98LHE52s",
+        "payment_reference": null,
+        "folio": "USyE28hdOKfI4YmaZGuciTEEwJwOj8dgdKV"
+    }
+}
+```
+
+```java
+// Source id incorrecto
+{
+  "success": 0,
+  "message": "La tarjeta no esta asociada al cliente.",
+  "data": null
+}
+```
+
+Genera una visita y es asociada al cliente.
+
+HTTP Request  | Name Endpoint  | Endpoint
+--------------|----------------|---------------
+POST          | REQUEST_VISIT  | {{url}}/request-gasoline
+
+### Header
+Key          | Descripción                              | Type    | Obligación de envío
+-------------|------------------------------------------|---------|----------------------
+Autorization | AccessToken obtenido al iniciar sesión   | Bearer  | Siempre
+
+### Parámetros
+Key               | Descripción                                                                          | Type                                | Obligación de envío
+------------------|--------------------------------------------------------------------------------------|-------------------------------------|---------
+liters            | Cantidad de litros solicitados por el cliente                                        | Double                              | Siempre
+date              | Fecha en la que se solicita la visita con el siguiente formato: "YYYY-MM-DD h:mm:ss" | String                              | Siempre
+address           | Dirección para realizar la visita                                                    | String                              | Siempre
+address_detail    | Descripción extra para la dirección                                                  | String                              | Opcional
+latitude          | Latitud en la que se encuentra ubicada la dirección del usuario                      | Long                                | Siempre
+longitude         | Longitud en la que se encuentra ubicada la dirección del usuario                     | Long                                | Siempre
+payment_method    | Valor que indica con qué tipo de método de pago será realizada la petición           | oxxo_cash - saved - cash - delivery | Siempre
+cash_amount       | Cantidad con la que el usuario pagará en efectivo                                    | Double                              | Solo si payment_method es "cash"
+payment_source_id | Source id asociado a la tarjeta previamente registrada                               | String                              | Solo si payment_method es "saved"
