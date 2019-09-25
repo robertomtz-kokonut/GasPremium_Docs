@@ -395,7 +395,7 @@ No requerido.
 
 HTTP Request  | Name Endpoint          | Endpoint
 --------------|------------------------|---------------
-POST          | delete method payment  | {{url}}/delete-method-payment
+POST          | delete method payment  | {{url}}/api/delete-method-payment
 
 ### Headers
 Key          | Value 
@@ -535,7 +535,7 @@ No requerido.
 
 HTTP Request  | Name Endpoint   | Endpoint
 --------------|-----------------|-------------------
-GET           | get price       | {{url}}/get-price
+GET           | get price       | {{url}}/api/get-price
 
 ### Headers 
 No requerido.
@@ -661,7 +661,7 @@ longitude   | Longitud de la ubicación a validar | Double  | Siempre
 
 HTTP Request  | Name Endpoint  | Endpoint
 --------------|----------------|---------------
-POST          | request gas    | {{url}}/request-gasoline
+POST          | request gas    | {{url}}/api/request-gasoline
 
 ### Headers
 Key          | Value 
