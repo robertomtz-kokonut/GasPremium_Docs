@@ -2,7 +2,7 @@
 title: Gas Premium API
 
 language_tabs: # must be one of https://git.io/vQNgJ
-  - javascript: Request
+  - javascript: Request Body
   - csharp: Success Response
   - java: Error Response
 
@@ -15,22 +15,23 @@ search: true
 # Gas Premium API Reference
 Link al código fuente: [GasPremium_Backend](https://github.com/KokonutStudioRepository/GasPremium_Backend).
 
-### API BASE URL
-Variable |  Value
---------------|---------
-{{url}} | https://gasapi.kokonutstudio.com/api
+## URL
+Ambiente        | Value
+----------------|----------------------------------------
+Pruebas Kokonut | https://api.gaspremium.com.mx/
+Producción      | https://api-s.gaspremium.com.mx/
 
-<aside class="notice">
-Si la respuesta de los servicios son llevadas a cabo satisfactoriamente se devuelve como Success <code>1</code> y si no, se devuelve <code>0</code>.
-</aside>
+## Keys
+Descripción                    | Value
+-------------------------------|----------------------------------------
+Conekta Public Key Development | key_OEdDTWP4mMYAnrmivuiSTKA
+Conekta Public Key Production  | key_cb4ycoccpDb8oL2nHWtZoGw
+Google API Key Android         | AIzaSyDZX-0g3lRHLPAvwFJscXN-UA5q99uAuZ4
+Google API Key iOS             | NO DISPONIBLE AÚN
 
-
-
-# APP-ENPOINTS
-Servicios expuestos para consumo interno de aplicaciones móviles.
-# Usuarios
-## Registrar un nuevo usuario
-> Ejemplo:
+# User
+## Registro de usuarios
+> Registro de usuarios:
 
 ```javascript
 // Registro con correo electrónico y contraseña
@@ -39,17 +40,20 @@ Servicios expuestos para consumo interno de aplicaciones móviles.
     "last_name": "Kokonut Studio",
     "email": "developer@kokonutstudio.com",
     "password": "123qwe",
-    "phone": "5522222222"
+    "phone": "5522222222",
+    "firebase_id": "esd8669JSL...",
+    "device": 2
 }
-// Registro con Facebook Token
+// Registro con Token de Facebook
 {
     "name": "Developer",
     "last_name": "Kokonut Studio",
     "email": "developer@kokonutstudio.com",
-    "fbuid": "eyJ0eXAiOi...cRgHhBjwU"
+    "fbuid": "eyJ0eXAiOi...cRgHhBjwU",
+    "firebase_id": "esd8669JSL...",
+    "device": 2
 }
 ```
-
 ```csharp
 {
   "success": 1,
@@ -57,21 +61,17 @@ Servicios expuestos para consumo interno de aplicaciones móviles.
   "data": null
 }
 ```
-
 ```java
-// Error por falta de parámetros
 {
   "success": 0,
   "message": "Hace falta enviar información.",
   "data": null
 }
-// Error por duplicidad de correo electrónico
 {
   "success": 0,
   "message": "Correo electrónico previamente registrado.",
   "data": null
 }
-// Error por duplicidad del token asociado con Facebook
 {
   "success": 0,
   "message": "Usuario Facebook registrado previamente.",
@@ -79,39 +79,43 @@ Servicios expuestos para consumo interno de aplicaciones móviles.
 }
 ```
 
-Registra a un usuario con su correo electrónico y su contraseña ó con Token de acceso Facebook.
-
 HTTP Request  | Name Endpoint |  Endpoint
 --------------|---------------|---------------
-POST          | REGISTER      | {{url}}/register
+POST          | register      | {{url}}/api/register
 
-### Parámetros
-Key         | Descripción                      | Type    | Obligación de envío
-------------|----------------------------------|---------|---------------------------------------------
-name        | Nombre del usuario               | String  | Siempre
-last_name   | Apellidos del usuario            | String  | Siempre
-username    | Correo electrónico del usuario   | String  | Siempre
-password    | Contraseña de acceso del usuario | String  | Solo si es registro con correo y contraseña
-phone       | Teléfono del usuario             | String  | Opcional
-fbuid       | Token de acceso Facebook         | String  | Solo si es registro con Facebook
+### Headers
+No requerido.
+
+### Body
+Key         | Descripción                                      | Type   | Mandatory
+------------|--------------------------------------------------|--------|----------------------------
+name        | Nombre del usuario                               | String | Siempre
+last_name   | Apellidos del usuario                            | String | Siempre
+username    | Correo electrónico del usuario                   | String | Siempre
+password    | Contraseña de acceso del usuario                 | String | Solo si es registro con correo y contraseña
+phone       | Teléfono del usuario                             | String | Opcional
+fbuid       | Token de acceso Facebook                         | String | Solo si es registro con Facebook
+firebase_id | Token de Firebase Messaging                      | String | Opcional
+device      | Indica el dispositivo que dió de alta al usuario | String | Siempre
 
 
 
 ## Inicio de sesión
-> Ejemplo:
+> Inicio de sesión:
 
 ```javascript
 // Inicio de sesión con correo electrónico y contraseña
 {
     "username": "developer@kokonutstudio.com",
-    "password": "123qwe"
+    "password": "123qwe",
+    "firebase_id": "esd8669JSL..."
 }
 // Inicio de sesión con Facebook Token
 {
-  "fbuid": "0000000000...123456789"
+    "fbuid": "0000000000...123456789",
+    "firebase_id": "esd8669JSL..."
 }  
 ```
-
 ```csharp
 // Inicio de sesión con correo electrónico y contraseña
 {
@@ -127,77 +131,78 @@ fbuid       | Token de acceso Facebook         | String  | Solo si es registro c
   "refresh_token": ""
 }
 ```
-
 ```java
-// Error por falta de parámetros
 {
   "success": 0,
   "message": "Hubo un error al autenticar el usuario.",
   "data": null
 }
-// Error en la validación de credenciales por correo electrónico y contraseña
 {
   "success": 0,
   "message": "Usuario o contraseña no valida.",
   "data": null
 }
-// Error en la validación de credenciales por Facebook Token
 {
   "success": 0,
   "message": "El usuario Facebook no existe.",
   "data": null
 }
+{
+    "success": 0,
+    "message": "Es necesario activar tu cuenta.",
+    "data": null
+}
 ```
 
-Autentica a un usuario con su correo electrónico y su contraseña ó con Token de acceso Facebook.
+HTTP Request  | Name Endpoint |  Endpoint
+--------------|---------------|---------------------
+POST          | login         | {{url}}/api/login
+
+### Headers
+No requerido.
 
 ### Body
-HTTP Request  | Name Endpoint |  Endpoint
---------------|---------------|---------------
-POST          | LOGIN         | {{url}}/login
-
-### Parámetros
-Key         | Descripción                      | Type    | Obligación de envío
-------------|----------------------------------|---------|---------------------------------------------
-username    | Correo electrónico del usuario   | String  | Solo si es login con correo y contraseña
-password    | Contraseña de acceso del usuario | String  | Solo si es login con correo y contraseña
-fbuid       | Token de acceso Facebook         | String  | Solo si es login con Facebook
+Key         | Descripción                      | Type   | Obligación de envío
+------------|----------------------------------|--------|---------------------------------------------
+username    | Correo electrónico del usuario   | String | Solo si es login con correo y contraseña
+password    | Contraseña de acceso del usuario | String | Solo si es login con correo y contraseña
+firebase_id | Token de Firebase Messaging      | String | Opcional
+fbuid       | Token de acceso Facebook         | String | Solo si es login con Facebook
 
 
 
 ## Obtener perfil
-> Ejemplo:
+> Obtener perfil:
 
 ```javascript
-/* NO BODY */
+// No requerido
 ```
-
 ```csharp
 {
-  "success": 1,
-  "message": null,
-  "data": [
-    {
-      "id": 12,
-      "name": "Jason",
-      "phone": "5598054918",
-      "last_name": "Garcia",
-      "email": "email_1@qa.com",
-      "fbuid": null,
-      "address": null,
-      "image": "",
-      "firebase_id": null,
-      "conekta_id": null,
-      "user_type_id": 2,
-      "created_at": "2019-05-23 15:55:17",
-      "updated_at": "2019-05-23 15:55:17"
-      }
-      ]
+    "success": 1,
+    "message": null,
+    "data": [
+        {
+            "id": 14,
+            "name": "Roberto",
+            "phone": "5522121212",
+            "last_name": "Kokonut Studio",
+            "email": "roberto@kokonutstudio.com",
+            "fbuid": null,
+            "address": null,
+            "image": "",
+            "firebase_id": "eG1o9lBrw5M...",
+            "conekta_id": null,
+            "user_type_id": 2,
+            "user_status_id": 1,
+            "password_token": "CRzPvpO3ZDCUjwAQZOiGxISHhI98Lr",
+            "created_at": "2019-09-04 12:14:56",
+            "updated_at": "2019-09-17 18:27:17"
+        }
+    ]
 }
 ```
-
 ```java
-// Error por AccessToken incorrecto
 {
   "success": 0,
   "message": "Unauthenticated",
@@ -205,17 +210,17 @@ fbuid       | Token de acceso Facebook         | String  | Solo si es login con 
 }
 ```
 
-Obtiene el perfil del usuario al que está asociado el Access Token 
-
-### Body
 HTTP Request  | Name Endpoint |  Endpoint
 --------------|---------------|------------------
-GET           | GET_PROFILE   | {{url}}/profile
+GET           | get profile   | {{url}}/api/profile
 
-### Header
-Key          | Descripción                              | Type    | Obligación de envío
--------------|------------------------------------------|---------|----------------------
-Autorization | AccessToken obtenido al iniciar sesión   | Bearer  | Siempre
+### Headers
+Key          | Value 
+-------------|----------------------------------
+Autorization | Bearer eyJ0eXAiOiJKV1Q...
+
+### Body
+No requerido.
 
 
 
@@ -226,10 +231,10 @@ Autorization | AccessToken obtenido al iniciar sesión   | Bearer  | Siempre
 {
     "name": "Developer",
     "last_name": "Kokonut Studio",
-    "phone": "5522222222"
+    "phone": "5522222222",
+    "password": "123qwe1"
 }
 ```
-
 ```csharp
 {
   "success": 1,
@@ -237,9 +242,7 @@ Autorization | AccessToken obtenido al iniciar sesión   | Bearer  | Siempre
   "data": null
 }
 ```
-
 ```java
-// Error por AccessToken incorrecto
 {
   "success": 0,
   "message": "Unauthenticated",
@@ -247,40 +250,36 @@ Autorization | AccessToken obtenido al iniciar sesión   | Bearer  | Siempre
 }
 ```
 
-Actualiza el perfil del usuario al que está asociado el Access Token 
-
-### Body
 HTTP Request  | Name Endpoint   |  Endpoint
 --------------|-----------------|----------------------
-PUT           | UPDATE_PROFILE  | {{url}}/user/update
+PUT           | update profile  | {{url}}/api/user/update
 
-### Header
-Key          | Descripción                              | Type    | Obligación de envío
--------------|------------------------------------------|---------|----------------------
-Autorization | AccessToken obtenido al iniciar sesión   | Bearer  | Siempre
+### Headers
+Key          | Value 
+-------------|----------------------------------
+Autorization | Bearer eyJ0eXAiOiJKV1Q...
 
 ### Parámetros
 Key         | Descripción                      | Type    | Obligación de envío
-------------|----------------------------------|---------|---------------------------------------------
+------------|----------------------------------|---------|----------------------
 name        | Nombre del usuario               | String  | Opcional
 last_name   | Apellidos del usuario            | String  | Opcional
 phone       | Teléfono del usuario             | String  | Opcional
-
+password    | Contraseña                       | String  | Opcional
 
 
 
 
 
 # Métodos de Pago
-## Registrar un nuevo método de pago
-> Ejemplo:
+## Registrar método de pago
+> Registrar método de pago:
 
 ```javascript
 {
     "token_id": "tok_test_mastercard_5100"
 }
 ```
-
 ```csharp
 {
   "success": 1,
@@ -288,7 +287,6 @@ phone       | Teléfono del usuario             | String  | Opcional
   "data": null
 }
 ```
-
 ```java
 {
   "success": 0,
@@ -297,31 +295,28 @@ phone       | Teléfono del usuario             | String  | Opcional
 }
 ```
 
-Registra y asocia a un usuario un nuevo método de pago a partir del idéntificador tokenizado de la tarjeta.
-
 HTTP Request  | Name Endpoint        | Endpoint
---------------|----------------------|---------------
-POST          | SAVE_PAYMENT_METHOD  | {{url}}/save-method-payment
+--------------|----------------------|-------------------------------------
+POST          | save method payment  | {{url}}/api/save-method-payment
 
-### Header
-Key          | Descripción                              | Type    | Obligación de envío
--------------|------------------------------------------|---------|----------------------
-Autorization | AccessToken obtenido al iniciar sesión   | Bearer  | Siempre
+### Headers
+Key          | Value 
+-------------|----------------------------------
+Autorization | Bearer eyJ0eXAiOiJKV1Q...
 
-### Parámetros
+### Body
 Key         | Descripción                                                   | Type    | Obligación de envío
 ------------|---------------------------------------------------------------|---------|---------------------
 token_id    | Valor obtenido de tokenizar una tarjeta con el SDK de Conekta | String  | Siempre
 
 
 
-## Obtener los métodos de pago de un usuario
-> Ejemplo:
+## Obtener métodos de pago
+> Obtener métodos de pago:
 
 ```javascript
-/* NO BODY */
+// No requerido
 ```
-
 ```csharp
 // Si el usuario no tiene métodos de pago asociados
 {
@@ -351,7 +346,6 @@ token_id    | Valor obtenido de tokenizar una tarjeta con el SDK de Conekta | St
   ]
 } 
 ```
-
 ```java
 {
   "success": 0,
@@ -364,24 +358,26 @@ Obtiene los métodos de pago asociados a un usuario.
 
 HTTP Request  | Name Endpoint        | Endpoint
 --------------|----------------------|---------------
-GET           | GET_PAYMENT_METHODS  | {{url}}/method-payment
+GET           | get method payment   | {{url}}/api/method-payment
 
-### Header
-Key          | Descripción                              | Type    | Obligación de envío
--------------|------------------------------------------|---------|----------------------
-Autorization | AccessToken obtenido al iniciar sesión   | Bearer  | Siempre
+### Headers
+Key          | Value 
+-------------|----------------------------------
+Autorization | Bearer eyJ0eXAiOiJKV1Q...
+
+### Body
+No requerido.
 
 
 
-## Eliminar método de pago asociado a un usuario
-> Ejemplo:
+## Eliminar método de pago
+> Eliminar método de pago:
 
 ```javascript
 {
   "method_id": "src_2kahPKe67FNYTLwWx"
 }
 ```
-
 ```csharp
 {
   "success": 1,
@@ -389,9 +385,7 @@ Autorization | AccessToken obtenido al iniciar sesión   | Bearer  | Siempre
   "data": null
 }
 ```
-
 ```java
-// Source id incorrecto
 {
   "success": 0,
   "message": "El método de pago no existe.",
@@ -399,18 +393,16 @@ Autorization | AccessToken obtenido al iniciar sesión   | Bearer  | Siempre
 }
 ```
 
-Elimina un método de pago asociado al usuario. 
-
 HTTP Request  | Name Endpoint          | Endpoint
 --------------|------------------------|---------------
-POST          | REMOVE_PAYMENT_METHOD  | {{url}}/delete-method-payment
+POST          | delete method payment  | {{url}}/delete-method-payment
 
-### Header
-Key          | Descripción                              | Type    | Obligación de envío
--------------|------------------------------------------|---------|----------------------
-Autorization | AccessToken obtenido al iniciar sesión   | Bearer  | Siempre
+### Headers
+Key          | Value 
+-------------|----------------------------------
+Autorization | Bearer eyJ0eXAiOiJKV1Q...
 
-### Parámetros
+### Body
 Key         | Descripción                                            | Type    | Obligación de envío
 ------------|--------------------------------------------------------|---------|---------------------
 method_id   | Source id asociado a la tarjeta previamente registrada | String  | Siempre
@@ -418,36 +410,35 @@ method_id   | Source id asociado a la tarjeta previamente registrada | String  |
 
 
 ## Obtener el historial de pagos
-> Ejemplo:
+> Obtener el historial de pagos:
 
 ```javascript
-/* NO BODY */
+// No requerido
 ```
-
 ```csharp
 {
     "success": 1,
     "message": null,
     "data": [
         {
-            "id": 1,
-            "amount": "840",
-            "conekta_order_id": "ord_2kh9m1BbinczL9YXj",
+            "id": 47,
+            "amount": "414.48",
+            "conekta_order_id": "ord_2mJdD5dtPnEajUTUX",
             "payment_method": "saved",
             "payed": 0,
             "payment_reference": null,
-            "last_digits": null,
-            "folio": "bvtyidXu7v3fjMesDbVUVPzdddcXlgBcT9D",
-            "payment_source": "src_2kh9kcBGP1anrNrYi",
+            "last_digits": "4242",
+            "folio": "RrpCRKXQhCW7NKu9DFOugp4CuDM8rWraEZc",
+            "payment_source": "src_2mGYpJ8hfwP2Mqgt2",
             "payment_status_id": 1,
-            "created_at": "2019-05-25 08:41:06",
-            "updated_at": "2019-05-25 08:41:06",
-            "description": "paid"
+            "created_at": "2019-09-10 20:51:51",
+            "updated_at": "2019-09-10 20:51:51",
+            "description": "paid",
+            "order_id": 121
         }
     ]
 }
 ```
-
 ```java
 {
     "success": 0,
@@ -456,21 +447,17 @@ method_id   | Source id asociado a la tarjeta previamente registrada | String  |
 }
 ```
 
-Obtiene el historial de transacciones realizadas por el usuario
+HTTP Request  | Name Endpoint        | Endpoint
+--------------|----------------------|---------------
+GET           | get history payments | {{url}}/api/get-payments
 
-HTTP Request  | Name Endpoint       | Endpoint
---------------|---------------------|---------------
-GET           | GET_PAYMENT_HISTORY | {{url}}/get-payments
+### Headers
+Key          | Value 
+-------------|----------------------------------
+Autorization | Bearer eyJ0eXAiOiJKV1Q...
 
-### Header
-Key          | Descripción                              | Type    | Obligación de envío
--------------|------------------------------------------|---------|----------------------
-Autorization | AccessToken obtenido al iniciar sesión   | Bearer  | Siempre
-
-
-<aside class="warning">
-<code>ISSUE</code> Por el momento obtiene todos los pagos realizados aunque no sean del propio usuario. 
-</aside>
+### Body
+No requerido.
 
 
 
@@ -478,131 +465,169 @@ Autorization | AccessToken obtenido al iniciar sesión   | Bearer  | Siempre
 
 # Visita
 ## Obtener fechas disponibles
-> Ejemplo:
+> Obtener fechas disponibles:
 
 ```javascript
-/* NO BODY */
+// No requerido.
 ```
-
 ```csharp
 {
     "success": 1,
     "message": null,
     "data": [
         {
-            "date": "2019-05-30",
+            "date": "2019-09-26",
             "hours": [
-                "7:30:00",
-                "8:30:00",
-                "9:30:00",
-                "10:30:00",
-                "11:30:00",
-                "12:30:00",
-                "13:30:00",
-                "14:30:00",
-                "15:30:00",
-                "16:30:00"
+                "13:00:00",
+                "14:00:00",
+                "15:00:00"
             ]
         },
-        ...
         {
-            "date": "2019-06-05",
+            "date": "2019-09-27",
             "hours": [
-                "7:30:00",
-                "8:30:00",
-                "9:30:00",
-                "10:30:00",
-                "11:30:00",
-                "12:30:00",
-                "13:30:00",
-                "14:30:00",
-                "15:30:00",
-                "16:30:00"
+                "9:00:00",
+                "10:00:00",
+                "11:00:00",
+                "12:00:00",
+                "13:00:00",
+                "14:00:00",
+                "15:00:00"
             ]
         }
     ]
 }
 ```
-
 ```java
-/* NO EXAMPLE */
+// Sin ejemplo replicable
 ```
-
-Obtiene las fechas y horarios disponibles para realizar una solicitud de visita.
 
 HTTP Request  | Name Endpoint        | Endpoint
 --------------|----------------------|---------------
-GET           | GET_AVAILABLE_DATES  | {{url}}/get-dates
+GET           | get available dates  | {{url}}/api/get-dates
+
+### Headers
+No requerido.
+
+### Body
+No requerido.
 
 
 
 ## Obtener precio por litro
-> Ejemplo:
+> Obtener precio por litro:
 
 ```javascript
-/* NO BODY */
+// No requerido
 ```
-
 ```csharp
 {
     "success": 1,
     "message": null,
     "data": {
-        "price": 21
+        "price": 9.87
     }
 }
 ```
-
 ```java
-/* NO EXAMPLE */
+// Sin ejemplo replicable
 ```
-
-Obtiene el precio actual del litro de gas.
 
 HTTP Request  | Name Endpoint   | Endpoint
 --------------|-----------------|-------------------
-GET           | GET_LITER_PRICE | {{url}}/get-price
+GET           | get price       | {{url}}/get-price
+
+### Headers 
+No requerido.
+
+### Body
+No requerido.
+
+
+
+## Validar ubicación
+> Validar ubicación:
+
+```javascript
+{
+    "latitude": 19.38823,
+    "longitude": -99.1632896
+}
+```
+```csharp
+{
+  "status": 200,
+  "latitude": 19.4357068,
+  "longitude": -99.131757,
+  "valid": true,
+  "msg": "Location is inside any polygon",
+  "polygons_ids": {
+    "1": "50b5000e8c414e528d4a51c9b1ea611b"
+  }
+}
+{
+  "status": 200,
+  "latitude": 19.4357068,
+  "longitude": -99.131757,
+  "valid": false,
+  "msg": "Location is not inside any polygon",
+  "polygons_ids": []
+}
+```
+```java
+// Sin ejemplo replicable
+```
+
+HTTP Request  | Name Endpoint   | Endpoint
+--------------|-----------------|--------------------------------------------------------
+POST          | validate area   | https://validatearea.kokonutstudio.com/api/v1/user/1
+
+### Headers 
+No requerido.
+
+### Body
+Key         | Descripción                        | Type    | Obligación de envío
+------------|------------------------------------|---------|---------------------
+latitude    | Latitud de la ubicación a validar  | Double  | Siempre
+longitude   | Longitud de la ubicación a validar | Double  | Siempre
 
 
 
 ## Solicitar visita
-> Ejemplo:
+> Solicitar visita:
 
 ```javascript
 // Pago en efectivo
 {
-  "liters": 30,
-  "date": "2019-05-13 9:30:00",
-  "address": "Vito Alessio Robles 186",
-  "address_detail": "Planta baja",
-  "latitude": 19.283280,
-  "longitude": -99.199140,
-  "payment_method": "cash",
-  "cash_amount": 500
+  "address": "Centro Histórico de la Cdad. de México, Centro, Ciudad de México, CDMX, México",
+  "address_detail": "Descripción de ubicación",
+  "cash_amount": 500.0,
+  "date": "2019-09-26 13:00:00",
+  "latitude": "19.4357068",
+  "longitude": "-99.131757",
+  "liters": "50.0",
+  "payment_method": "cash"
 }
 // Pago con tarjeta a contra-entrega
 {
-  "liters": 30,
-  "date": "2019-05-13 9:30:00",
-  "address": "Vito Alessio Robles 186",
-  "address_detail": "Planta baja",
-  "latitude": 19.283280,
-  "longitude": -99.199140,
-  "payment_method": "delivery"
-}
+  "address": "Centro Histórico de la Cdad. de México, Centro, Ciudad de México, CDMX, México",
+  "date": "2019-09-26 14:00:00",
+  "latitude": "19.4357068",
+  "longitude": "-99.131757",
+  "liters": "50.0",
+  "payment_method":"delivery"
+  }
 // Pago con tarjeta al momento
 {
-  "liters": 30,
-  "date": "2019-05-13 9:30:00",
-  "address": "Vito Alessio Robles 186",
-  "address_detail": "Planta baja",
-  "latitude": 19.283280,
-  "longitude": -99.199140,
+  "address": "Centro Histórico de la Cdad. de México, Centro, Ciudad de México, CDMX, México",
+  "date": "2019-09-26 15:00:00",
+  "latitude": "19.4357068",
+  "longitude": "-99.131757",
+  "liters": "50.0",
   "payment_method": "saved",
-  "payment_source_id": "src_2kfibRXbFf6wcvt4X"
+  "payment_source_id": "src_2mGYpJ8hfwP2Mqgt2"
 }
 ```
-
 ```csharp
 // Visita programada correctamente
 {
@@ -614,18 +639,17 @@ GET           | GET_LITER_PRICE | {{url}}/get-price
 }
 // Visita programada y pagada correctamente
 {
-    "success": 1,
-    "message": null,
-    "data": {
-        "status": "Pagado",
-        "auth_code": "744857",
-        "conekta_order_id": "ord_2kinDfzeU98LHE52s",
-        "payment_reference": null,
-        "folio": "USyE28hdOKfI4YmaZGuciTEEwJwOj8dgdKV"
-    }
+  "success": 1,
+  "message": null,
+  "data": {
+    "status": "Pagado",
+    "auth_code": "683919",
+    "conekta_order_id": "ord_2mPQsYvPt3iVY14wf",
+    "payment_reference": null,
+    "folio": "UfWSX7tZAnXefE5oxzD8PmLjv1b9b76b4C9"
+  }
 }
 ```
-
 ```java
 // Source id incorrecto
 {
@@ -635,26 +659,24 @@ GET           | GET_LITER_PRICE | {{url}}/get-price
 }
 ```
 
-Genera una visita y es asociada al cliente.
-
 HTTP Request  | Name Endpoint  | Endpoint
 --------------|----------------|---------------
-POST          | REQUEST_VISIT  | {{url}}/request-gasoline
+POST          | request gas    | {{url}}/request-gasoline
 
-### Header
-Key          | Descripción                              | Type    | Obligación de envío
--------------|------------------------------------------|---------|----------------------
-Autorization | AccessToken obtenido al iniciar sesión   | Bearer  | Siempre
+### Headers
+Key          | Value 
+-------------|----------------------------------
+Autorization | Bearer eyJ0eXAiOiJKV1Q...
 
-### Parámetros
-Key               | Descripción                                                                          | Type                                | Obligación de envío
-------------------|--------------------------------------------------------------------------------------|-------------------------------------|---------
-liters            | Cantidad de litros solicitados por el cliente                                        | Double                              | Siempre
-date              | Fecha en la que se solicita la visita con el siguiente formato: "YYYY-MM-DD h:mm:ss" | String                              | Siempre
-address           | Dirección para realizar la visita                                                    | String                              | Siempre
-address_detail    | Descripción extra para la dirección                                                  | String                              | Opcional
-latitude          | Latitud en la que se encuentra ubicada la dirección del usuario                      | Long                                | Siempre
-longitude         | Longitud en la que se encuentra ubicada la dirección del usuario                     | Long                                | Siempre
-payment_method    | Valor que indica con qué tipo de método de pago será realizada la petición           | oxxo_cash - saved - cash - delivery | Siempre
-cash_amount       | Cantidad con la que el usuario pagará en efectivo                                    | Double                              | Solo si payment_method es "cash"
-payment_source_id | Source id asociado a la tarjeta previamente registrada                               | String                              | Solo si payment_method es "saved"
+### Body
+Key               | Descripción                                                                          | Type                    | Obligación de envío
+------------------|--------------------------------------------------------------------------------------|-------------------------|---------
+liters            | Cantidad de litros solicitados por el cliente                                        | Double                  | Siempre
+date              | Fecha en la que se solicita la visita con el siguiente formato: "YYYY-MM-DD h:mm:ss" | String                  | Siempre
+address           | Dirección para realizar la visita                                                    | String                  | Siempre
+address_detail    | Descripción extra para la dirección                                                  | String                  | Opcional
+latitude          | Latitud en la que se encuentra ubicada la dirección del usuario                      | Long                    | Siempre
+longitude         | Longitud en la que se encuentra ubicada la dirección del usuario                     | Long                    | Siempre
+payment_method    | Valor que indica con qué tipo de método de pago será realizada la petición           | saved - cash - delivery | Siempre
+cash_amount       | Cantidad con la que el usuario pagará en efectivo                                    | Double                  | Solo si payment_method es "cash"
+payment_source_id | Source id asociado a la tarjeta previamente registrada                               | String                  | Solo si payment_method es "saved"
