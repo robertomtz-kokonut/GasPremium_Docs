@@ -18,8 +18,8 @@ Link al código fuente: [GasPremium_Backend](https://github.com/KokonutStudioRep
 ## URL
 Ambiente        | Value
 ----------------|----------------------------------------
-Pruebas Kokonut | https://api.gaspremium.com.mx/
-Producción      | https://api-s.gaspremium.com.mx/
+Pruebas Kokonut | https://api-s.gaspremium.com.mx/
+Producción      | https://api.gaspremium.com.mx/
 
 ## Keys
 Descripción                    | Value
